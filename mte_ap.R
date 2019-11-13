@@ -4,7 +4,7 @@
 library(rvest)
 
 usuario <- "javierluis.rodriguez"
-contra <- "xa1234bi"
+contra <- "xsa123aaaa4bi"
 
 
 url <- "http://eio.usc.es/pub/mte/index.php/es/acceder"
@@ -13,15 +13,19 @@ ses <- html_session(url,encoding = "UTF-8")
 
 form <- ses %>% 
              html_node("form") %>%
-                           html_form() %>%
+                           html_form() #%>%
                                    set_values("nombreUsuario" = usuario,
                                               "contraseña" = contra)
 
-ses2 <- submit_form(ses,form) 
+ses2 <- submit_form(ses,form,"login") 
 
 url2 <- "http://eamo.usc.es/eipc1/base/BASEMASTER/FORMULARIOS-PHP/MateriasAlumno.php?al=SI"
 
 user.asig <-  ses2 %>% jump_to(url2)
+
+url3 <- "http://eamo.usc.es/eipc1/base/BASEMASTER/FORMULARIOS-PHP/detalleMateriasAlumno.php"
+
+laasig <- ses2 %>% jump_to(url3) 
 
 # valores
 val <- user.asig %>% 
@@ -39,4 +43,7 @@ op <- user.asig %>%
 op <- op[nchar(op) > 5]
 
 # error en el nº de asignaturas
- 
+
+# submit
+form.asig <- user.asig %>% html_nodes("form")
+form.asig <- form.asig[2]  %>% html_form() %>% set_values("select" = op[1])
