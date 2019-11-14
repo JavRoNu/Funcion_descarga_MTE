@@ -68,7 +68,10 @@ a <- submit_form(user.asig, f.asig, "submit")
 
 
 # hay que sacar las fechas
-#fechas <- a %>% html_node(xpath = '//*[@id="li_4"]/table[2]')%>% html_attr("td")# %>% html_table(fill = T) 
+fechas <- a %>% read_html(encoding = "UTF-8") %>%
+  html_node(xpath = '//*[@id="li_4"]/table[2]') %>%
+  html_children() %>%
+  html_text()
 
 t.mat <- a %>% read_html(encoding = "UTF-8") %>%
   html_nodes(xpath = '//*[@id="li_4"]/table[2]') %>% html_nodes("a")
