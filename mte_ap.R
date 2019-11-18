@@ -37,7 +37,7 @@ mte_get <- function(
   #
   #   "all" : descarga todos los archivos del repositorio.
   #
-  modoArchivos = "int",
+  modoArchivos = "int"
   ) {
   # verificiación de arugmentos 
 
@@ -50,7 +50,7 @@ mte_get <- function(
   if (!modoArchivos %in% c("int","act","all"))
     stop('El modo de descarga de archivos debe ser "int","act" o "all".')
   
-    }
+    
 
 # borrar
 usuario <- "javierluis.rodriguez"
@@ -71,10 +71,14 @@ for (i in c("rvest","magrittr","stringr")) {
 
 url <- "http://eio.usc.es/pub/mte/index.php/es/acceder"
 
-# comienzo sesion y error de disponibilidad del servidor
+
 tryCatch(
-  expr = {ses <- html_session(url, encoding = "UTF-8")},
-  error = stop("Oops!! parece que el servidor del máster esta caído.")
+  expr = {
+    ses <- html_session(url, encoding = "UTF-8")
+  },
+  error = function(e) {
+    stop("Oops!! parece que el servidor del máster esta caído.")
+  }
 )
 
 # login
@@ -117,7 +121,7 @@ if (is.null(asig)) {
 # detección de all y extración nºs
   if (grepl("all", asig, ignore.case = T)) {
     
-    asign <- seq(length(op))
+    asig <- seq(length(op))
     
   } else {
     
@@ -146,20 +150,27 @@ if (length(asig) > 1) {
   
   use.asigdir <- T
   
-  d.name <- NULL
-  
+  d.name <- character(length(asig))
+  op <<- op
   for (i in asig) {
     
-    d.name[i] <- paste0(carpeta, "/", str_replace(op[i], " ", "_"))
-    
-    if (!dir.exists(d.name)) dir.create(d.name)
+    d.name[i] <- paste0(carpeta, "/",
+                        str_replace(op[i],
+                                    c(" ","\\" ),
+                                    c("_","-")
+                                    )
+                        )
+    print(d.name)
+    if (!dir.exists(d.name[i])) dir.create(d.name[i])
     
   }
   
   message("Selecionadas más de una asignaturas, empleando subcarpetas.")
   
-} else d.name <- carpeta
-
+} else{
+  d.name <- carpeta
+}
+  
 for (i in asig) {
   f.asig2 <-
     set_values(f.asig, "nom_materia" = f.asig$fields$nom_materia$options[i + 1]) # **
@@ -181,7 +192,7 @@ for (i in asig) {
   fech <- tx[seq(3, length(tx), by = 3)]
   
   est <- tx[seq(4, length(tx), by = 3)] %>%
-    str_extract("\\.[a-zA-Z0-9_]{1,}$")
+    str_extract_all("\\.[a-zA-Z0-9_]{1,}$")
   
   nms <- paste0(nms, est)
   
@@ -216,44 +227,31 @@ for (i in asig) {
         as.numeric()
     }
     
-  } else
-    arch <- seq(length(nms))
+  } else arch <- seq(length(nms))
+  
+  
+  if (any(arch <= 0 | asig > length(nms)))
+    stop("El nº referido a la asignatura es incorrecto.")
   
   
   for (i2 in arch) {
     # descarga
     dwn <- jump_to(s.asig, links[i2])
     
-    if (sobrescibir) {
-      download.file(dwn$url, disp[i2], mode = "wb", method = "libcurl")
-    } else{
-      down_no_overwrite(dwn$url, disp[f])
+    fnm <- paste0(d.name[i2], "/", nms[i2])
+    
+    if (sobrescribir) {
+      n <- 1
+      
+      while (!any(file.exists(fnm))) {
+        fnm <- paste0(d.name[i], "/(", n, ")", nms[i2])
+        n <- n + 1
+      }
     }
-    
-    
+    download.file(dwn$url, fnm, mode = "wb", method = "libcurl")
   }
-  
+ }
 }
-
 
 # funciones de soporte
-
-down_no_overwrite <- function(url, folder) {
-  
-  filename <- basename(url)
-  
-  base <- tools::file_path_sans_ext(filename)
-  
-  ext <- tools::file_ext(filename)
-  
-  file_exists <- grepl(base, list.files(folder), fixed = TRUE)
-  
-  if (any(file_exists))
-  {
-    filename <- paste0(base, " (", sum(file_exists), ")", ".", ext)
-  }
-  
-  download.file(url, file.path(folder, filename), mode = "wb", method = "libcurl")
-}
-
 
