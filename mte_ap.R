@@ -18,8 +18,8 @@ mte_get <- function(
   contra = NULL,
   # carpeta donde guardar los archivos, por defecto el directorio de trabajo.  
   carpeta = getwd(),
-  # lista de asignaturas a descargar o un vector numerico con el codigo o la palabra "all"
-  # para descargarse todas. all tiene preferencia. # dejar vacio para entrar en el
+  # lista de asignaturas a descargar o un vector numerico con el codigo o la palabra "todo"
+  # para descargarse todas. todo tiene preferencia. # dejar vacio para entrar en el
   # modo de selección interactivo. Si hay más de una asignatura generara carpetas para cada una.
   asig = NULL,
   # Indica si debe sobrescribir archivos existentes, por defecto el nombre asignado es el del archivo.
@@ -30,16 +30,21 @@ mte_get <- function(
   # Indica el modo para descargar los archivos de las asignaturas seleccionadas:
   #
   #   "int" : modo interactivo(default) saldra la lista interactiva y se seleccionaran los archivos,
-  #           de modo analogo a las asignaturas tmb podeis escribir "all".
+  #           de modo analogo a las asignaturas tmb podeis escribir "todo".
   #
   #   "act" : modo actualizar descarga todos los archivos que no esten en la carpeta pero si en el
   #           repositorio
   #
-  #   "all" : descarga todos los archivos del repositorio.
+  #   "todo" : descarga todos los archivos del repositorio.
   #
   modoArchivos = "int"
   ) {
   # verificiación de arugmentos 
+  # if(!is.character(usuario))
+  #   stop("El usuario debe ser de tipo character")
+  # 
+  # if(!is.character(contra))
+  #   stop("La contraseña debe ser de tipo character")
 
   if (!dir.exists(carpeta))
     stop("El directorio proporcionado no existe o esta mal escrito.")
@@ -47,8 +52,8 @@ mte_get <- function(
   if (!is.logical(sobrescribir))
     stop("Sobrescribir debe ser un argumento lógico.")
   
-  if (!modoArchivos %in% c("int","act","all"))
-    stop('El modo de descarga de archivos debe ser "int","act" o "all".')
+  if (!modoArchivos %in% c("int","act","todo"))
+    stop('El modo de descarga de archivos debe ser "int","act" o "todo".')
   
     
 
@@ -119,7 +124,7 @@ if (is.null(asig)) {
 
 
 # detección de all y extración nºs
-  if (grepl("all", asig, ignore.case = T)) {
+  if (grepl("todo", asig, ignore.case = T)) {
     
     asig <- seq(length(op))
     
@@ -146,32 +151,34 @@ f.asig <- s.opt %>%
 
 # LOOP DE ASIGNATURAS
 
+# creación de las carpetas
+d.name <- character(max(asig))
+
 if (length(asig) > 1) {
   
   use.asigdir <- T
   
-  d.name <- character(length(asig))
-  op <<- op
+  
   for (i in asig) {
     
-    d.name[i] <- paste0(carpeta, "/",
-                        str_replace(op[i],
-                                    c(" ","\\" ),
-                                    c("_","-")
-                                    )
-                        )
-    print(d.name)
+    das <- str_extract(op[i],"(^.{1,})\\.") %>% 
+      str_replace("\\.","")
+    
+    d.name[i] <- paste0(carpeta, "/",das)
+    
     if (!dir.exists(d.name[i])) dir.create(d.name[i])
     
   }
   
-  message("Selecionadas más de una asignaturas, empleando subcarpetas.")
+  message("Selecionadas más de una asignatura, empleando subcarpetas.")
   
 } else{
-  d.name <- carpeta
+  d.name[1:length(d.name)] <- carpeta
 }
-  
+# borra 
+d.name2 <<- d.name
 for (i in asig) {
+  
   f.asig2 <-
     set_values(f.asig, "nom_materia" = f.asig$fields$nom_materia$options[i + 1]) # **
   # el más uno es por el campo vacio
@@ -198,7 +205,7 @@ for (i in asig) {
   
   
   links <- s.asig %>%
-    read_html(encoding = "UTF-8") %>%
+    #read_html(encoding = "UTF-8") %>%
     html_nodes(xpath = '//*[@id="li_4"]/table[2]') %>%
     html_nodes("a") %>%
     html_attr("href")
@@ -217,7 +224,7 @@ for (i in asig) {
         paste0(" ", seq(length(nms)), " -- ", fech, " -- ", nms, "\n"))
     arch <- readline("Selecione los archivos : ") 
     
-    if (grepl("all", arch, ignore.case = T)) {
+    if (grepl("todo", arch, ignore.case = T)) {
       arch <- seq(length(nms))
       
     } else {
@@ -230,16 +237,24 @@ for (i in asig) {
   } else arch <- seq(length(nms))
   
   
-  if (any(arch <= 0 | asig > length(nms)))
-    stop("El nº referido a la asignatura es incorrecto.")
+  if (any(arch <= 0 | arch > length(nms)))
+    stop("El nº referido al archivo es incorrecto.")
   
+  # debug
+  links <<-links
+  nms <<- nms
+  s.asig <<- s.asig
+  sobrescribir <<- sobrescribir
+  d.name <<- d.name
   
   for (i2 in arch) {
+
     # descarga
+    
     dwn <- jump_to(s.asig, links[i2])
     
-    fnm <- paste0(d.name[i2], "/", nms[i2])
-    
+    fnm <- paste0(d.name[i], "/", nms[i2])
+    fnm2 <<- fnm 
     if (sobrescribir) {
       n <- 1
       
@@ -248,7 +263,14 @@ for (i in asig) {
         n <- n + 1
       }
     }
-    download.file(dwn$url, fnm, mode = "wb", method = "libcurl")
+    
+    ## hay que introducir un try and catzch
+    
+    download.file(dwn$url, fnm, mode = "wb",
+                  method = "curl",quiet = T)
+    
+    message(paste0("Archivo ",nms[i2]," descargado."))
+
   }
  }
 }
