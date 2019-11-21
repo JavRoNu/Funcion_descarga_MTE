@@ -251,7 +251,7 @@ for (i in asig) {
 
     # descarga
     
-    dwn <- jump_to(s.asig, links[i2])
+    dwn <- jump_to(s.asig, URLencode(links[i2],reserved = FALSE))
     
     fnm <- paste0(d.name[i], "/", nms[i2])
     fnm2 <<- fnm 
