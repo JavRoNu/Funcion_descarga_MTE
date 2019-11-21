@@ -37,6 +37,6 @@ mte_get()
 ```
 También se pueden declarar los argumentos con anterioridad.
 ```r
-mte_get(usuario = “PacoMermela”, contra = “abc123”,carpeta = “C:\Users\Paco\Master “)
+mte_get(usuario = "PacoMermela", contra = "abc123",carpeta = "C:\Users\Paco\Master")
 ```
 
