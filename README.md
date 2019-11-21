@@ -39,4 +39,20 @@ También se pueden declarar los argumentos con anterioridad.
 ```r
 mte_get(usuario = "PacoMermela", contra = "abc123",carpeta = "C:\Users\Paco\Master")
 ```
+## Uso de la consola en modo interactivo:
 
+Cuando en el modo interactivo nos salen los listados en la consola se nos piden los nºs correspondientes. Para indicar varios basta con que esten separados, es decir:
+```r
+Selecione Asignaturas: 1 12 4
+
+```
+Es lo mismo que:
+
+```r
+Selecione Asignaturas: adaofoanmf@1,  12 #aa   4
+```
+En ambos casos solo tendra en ceunta los valores númericos salvo que escribamos:
+```r
+Selecione Archivos: todo
+```
+en cuyo caso selecciona todos los archivos o asignaturas.
