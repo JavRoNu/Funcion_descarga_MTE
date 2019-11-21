@@ -51,7 +51,7 @@ Es lo mismo que:
 ```r
 Selecione Asignaturas: adaofoanmf@1,  12 #aa   4
 ```
-En ambos casos solo tendra en ceunta los valores númericos salvo que escribamos:
+En ambos casos solo tendra en cuenta los valores númericos (1,12,4) salvo que escribamos:
 ```r
 Selecione Archivos: todo
 ```
