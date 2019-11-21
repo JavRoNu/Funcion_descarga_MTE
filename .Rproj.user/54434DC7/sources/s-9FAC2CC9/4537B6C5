@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1574362131277.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "4537B6C5",
+    "lastKnownWriteTime" : 1574361889,
+    "last_content_update" : 1574361889,
+    "path" : "~/Funcion_descarga_MTE/mte_get.R",
+    "project_path" : "mte_get.R",
+    "properties" : {
+        "cursorPosition" : "260,0",
+        "scrollLine" : "231"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
