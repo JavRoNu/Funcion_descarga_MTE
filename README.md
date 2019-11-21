@@ -1,11 +1,10 @@
 # Descripción:
 Es una función para interactuar y descargar archivos de la bbdd del master directamente desde R. 
 
-```dif
 - No se si funciona en Linux o Mac (francamente espero que en Mac NO!).
 - Acabo de hacerla igual peta.
 - Tiene unos pocos mensajes de error pero tampoco es a prueba de bombas.
-```
+
 
 # Uso:
 ```r
@@ -27,7 +26,7 @@ modo de selección interactivo. Si hay más de una asignatura generara carpetas 
      - "act" : modo actualizar descarga todos los archivos que no estén en la carpeta pero si en el repositorio. 
      - "todo" : descarga todos los archivos del repositorio.
 
-# Uso
+# Ejemplos:
 Ejecutando el script para cargar la función con ```source()```, tened en cuenta el encoding.
 ```r
 source("mte_get.R",encoding = "UTF-8")
