@@ -67,7 +67,7 @@ en cuyo caso selecciona todos los archivos o asignaturas.
 
 ## ¿Como hago para descargarme todo?
 
-Para descargar en *bulk* los materiales que tengas disponibles en el máster pasas el argumento "todo" tanto para rchivos como asignaturas "todo".
+Para descargar en *bulk* los materiales que tengas disponibles en el máster pasas el argumento "todo" tanto para archivos como asignaturas.
 
 ```r
 mte_get(
