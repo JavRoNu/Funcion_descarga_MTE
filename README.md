@@ -27,7 +27,7 @@ mte_get(
   - **asig**: Lista de asignaturas a descargar o un vector numérico con el código o la palabra "todo"
 para descargarse todas. todo tiene preferencia. Dejar vacío para entrar en el
 modo de selección interactivo. Si hay más de una asignatura generara carpetas para cada una. 
-   - **sobrescribir**: Indica si debe sobrescribir archivos existentes, por defecto el nombre asignado es el del archivo. es decir se elimina el prefijo Mat_xxxx_x_.En caso de TRUE se sobrescribirán archivos en la carpeta de descarga con dicho nombre. En caso de FALSE creara una copia con el n delante:"scriptAED.R" pasara a ser "(1)scriptAED.R" si este también existe..."(2)scriptAED.R" y así sucesivamente.
+   - **sobrescribir**: Indica si debe sobrescribir archivos existentes, por defecto el nombre asignado es el del archivo. es decir se elimina el prefijo Mat_xxxx_x_. En caso de TRUE se sobrescribirán archivos en la carpeta de descarga con dicho nombre. En caso de FALSE creara una copia con el n delante:"scriptAED.R" pasara a ser "(1)scriptAED.R" si este también existe..."(2)scriptAED.R" y así sucesivamente.
    
    - **modoArchivos**: Indica el modo para descargar los archivos de las asignaturas seleccionadas:
      - "int" : modo interactivo, saldrá la lista interactiva y se seleccionaran los archivos. De modo análogo a las asignaturas también podéis escribir "todo".
