@@ -252,7 +252,7 @@ mte_get <- function(
       
       message(paste0("Archivo:  ",nms[i2]," descargado."))
       }, error = function(e) {
-        message(paste0("El archivo ",nsm[i2],"no se ha podido descargar!!"))
+        message(paste0("El archivo ",nms[i2],"no se ha podido descargar!!"))
       })
       
     }

@@ -1,5 +1,5 @@
 # Descripción:
-Es una función para interactuar y descargar archivos de la bbdd del master directamente desde R. 
+Es una función para interactuar y descargar archivos de la bbdd del máster directamente desde R. 
 
 - No se si funciona en Linux o Mac (francamente espero que en Mac NO!).
 - Acabo de hacerla igual peta.
@@ -7,13 +7,21 @@ Es una función para interactuar y descargar archivos de la bbdd del master dire
 
 
 # Uso:
+
 ```r
-mte_get(usuario = NULL, contra = NULL, carpeta = getwd(), asig = NULL, sobrescribir = FALSE, modoArchivos = "int")
+mte_get(
+  usuario = NULL,
+  contra = NULL,
+  carpeta = getwd(),
+  asig = NULL,
+  sobrescribir = FALSE,
+  modoArchivos = "int"
+)
 ```
 
 # Argumentos:
- - **usuario**:  Nombre de usuario de acceso a la bbdd del master.
-  - **contra**: contraseña de acceso a la bbdd del master. 
+ - **usuario**:  Nombre de usuario de acceso a la bbdd del máster.
+  - **contra**: contraseña de acceso a la bbdd del máster. 
   - **carpeta**: carpeta donde guardar los archivos, por defecto el directorio de trabajo. Se generan subcarpetas automáticamente en la carpeta proporcionada si hay más de una asignatura.
 
   - **asig**: Lista de asignaturas a descargar o un vector numérico con el código o la palabra "todo"
@@ -37,7 +45,7 @@ mte_get()
 ```
 También se pueden declarar los argumentos con anterioridad.
 ```r
-mte_get(usuario = "PacoMermela", contra = "abc123",carpeta = "C:\Users\Paco\Master")
+mte_get(usuario = "Paco.Mermela", contra = "gato44",carpeta = "C:/Users/Paco/Master")
 ```
 ## Uso de la consola en modo interactivo:
 
@@ -49,10 +57,25 @@ Selecione Asignaturas: 1 12 4
 Es lo mismo que:
 
 ```r
-Selecione Asignaturas: adaofoanmf@1,  12 #aa   4
+Selecione Asignaturas: adaoanmf@1,  12 hf$faa 4s
 ```
 En ambos casos solo tendra en cuenta los valores númericos (1,12,4) salvo que escribamos:
 ```r
 Selecione Archivos: todo
 ```
 en cuyo caso selecciona todos los archivos o asignaturas.
+
+## ¿Como hago para descargarme todo?
+
+Para descargar en *bulk* los materiales que tengas disponibles en el máster pasas el argumento "todo" tanto para rchivos como asignaturas "todo".
+
+```r
+mte_get(
+  usuario ="Paco.Mermela",
+  contra = "gato44",
+  carpeta = "C:/Users/Paco/Master",
+  asig = "todo",
+  modoArchivos = "todo"
+)
+```
+
