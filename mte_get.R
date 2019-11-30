@@ -222,13 +222,6 @@ mte_get <- function(
     if (any(arch <= 0 | arch > length(nms)))
       stop("El nº referido al archivo es incorrecto.")
     
-    # debug
-    links <<-links
-    nms <<- nms
-    s.asig <<- s.asig
-    sobrescribir <<- sobrescribir
-    d.name <<- d.name
-    
     for (i2 in arch) {
       
       # descarga
