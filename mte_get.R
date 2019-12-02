@@ -159,7 +159,7 @@ mte_get <- function(
       set_values(f.asig, "nom_materia" = f.asig$fields$nom_materia$options[i + 1]) # **
     # el más uno es por el campo vacio
     
-    s.asig <- submit_form(s.opt, f.asig2, "submit")
+    s.asig <- submit_form(s.opt, f.asig2, "btnsubmit")
     
     # hay que sacar las fechas
     tx <- s.asig %>% read_html(encoding = "UTF-8") %>%
