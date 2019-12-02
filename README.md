@@ -39,11 +39,17 @@ Ejecutando el script para cargar la función con ```source()```, tened en cuenta
 ```r
 source("mte_get.R",encoding = "UTF-8")
 ```
+También podemos cargarlo desde github si no queremos descargar el archivo **RECOMENDADO**.
+```r
+source("https://raw.githubusercontent.com/JavRoNu/Funcion_descarga_MTE/master/mte_get.R",
+       encoding = "UTF-8")
+``` 
 Se puede ejecutar en modo interactivo con:
 ```r
 mte_get()
 ```
 También se pueden declarar los argumentos con anterioridad.
+
 ```r
 mte_get(usuario = "Paco.Mermela", contra = "gato44",carpeta = "C:/Users/Paco/Master")
 ```
