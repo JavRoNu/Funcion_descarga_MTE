@@ -168,8 +168,6 @@ mte_get <- function(
       html_text() %>%
       trimws()
     
-    tx <<- tx
-    
     if ( length(tx) == 1 |  ((length(tx)-1) %% 3) != 0){
       message(paste0("No hay archivos disponibles para ",op[i],"."))
       Sys.sleep(2)
